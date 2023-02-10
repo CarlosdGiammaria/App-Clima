@@ -1,12 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Red Hat Display', sans-serif;
+  font-size: 17px;
 }
 
 html,
 body {
-  background: linear-gradient(168.44deg, #2E335A 1.62%, #1C1B33 95.72%);
+  background: #2E335A;
+  color: #fff;
+}
+
+.icon {
+  font-size: 19px;
+}
+
+.small-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.btn>* {
+  pointer-events: none;
+}
+
+.big-text {
+  line-height: 41px;
+  font-size: 55px;
+  font-weight: 400;
+}
+
+.opaque-text {
+  color: rgba(255, 255, 255, 0.618);
 }
 
 .container {
@@ -15,5 +49,77 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
+  height: 200px;
+}
 
+.container__search {
+  position: relative;
+  top: 80px;
+  display: flex;
+  width: 500px;
+  height: 60px;
+}
+
+.container__search .form {
+  position: relative;
+  background-color: #fff;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  padding: 20px 15px;
+  flex: 1;
+  gap: 20px;
+}
+
+.input-text {
+  outline: none;
+  border: none;
+  font-size: 17px;
+  flex: 1;
+}
+
+.weather-info {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+
+}
+
+.container__weather-city {
+  background-image: url("/image/rectangle-1.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+  top: 50px;
+  width: 480px;
+  height: 230px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.wind{
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.weather-city__details {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  flex: 1;
+}
+
+.weather-city__img {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: flex-start;
+
+}
+
+.weather-city__img img {
+  width: 300px;
+  height: 150px;
 }
