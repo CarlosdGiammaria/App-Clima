@@ -32,16 +32,19 @@ body {
 .btn>* {
   pointer-events: none;
 }
-
+.bold-text{
+  font-weight: bold;
+}
 .big-text,
 .big-text * {
   line-height: 41px;
   font-size: 55px;
-  font-weight: 400;
+  font-weight: bold;
 }
 
 .opaque-text {
   color: rgba(255, 255, 255, 0.618);
+  text-transform: capitalize;
 }
 
 .container {
@@ -125,7 +128,7 @@ body {
   justify-content: flex-start;
   width: 200px;
   height: 156;
- 
+
 
 }
 
@@ -133,4 +136,25 @@ body {
   width: 100%;
   height: 70%;
   object-fit: contain;
+}
+
+.spinner {
+  position: relative;
+  top: 100px;
+  border: 4px solid #fff;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border-left-color: #525b9f;
+  animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
