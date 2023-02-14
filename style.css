@@ -33,7 +33,8 @@ body {
   pointer-events: none;
 }
 
-.big-text {
+.big-text,
+.big-text * {
   line-height: 41px;
   font-size: 55px;
   font-weight: 400;
@@ -95,31 +96,41 @@ body {
   height: 230px;
   display: flex;
   flex-flow: row nowrap;
+  align-items: center;
   justify-content: space-between;
 }
 
-.wind{
-  display: flex;
-  flex-flow: column wrap;
-}
 
 .weather-city__details {
+  padding: 35px;
   display: flex;
   flex-flow: column wrap;
-  align-items: center;
+  gap: 18px;
   justify-content: space-evenly;
   flex: 1;
+
+}
+
+.wind {
+  display: flex;
+  flex-flow: column wrap;
 }
 
 .weather-city__img {
   display: flex;
-  flex-flow: column wrap;
+  flex-direction: column;
+  flex-wrap: nowrap;
   align-items: center;
+  aspect-ratio: 1;
   justify-content: flex-start;
+  width: 200px;
+  height: 156;
+ 
 
 }
 
 .weather-city__img img {
-  width: 300px;
-  height: 150px;
+  width: 100%;
+  height: 70%;
+  object-fit: contain;
 }
