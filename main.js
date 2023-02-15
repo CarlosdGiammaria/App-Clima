@@ -1,11 +1,22 @@
 const form = document.querySelector(".js-form");
 const containerWeather = document.querySelector(".js-weather-city");
 const apiKey = "3d169feda7a066ff2b90a81de6a1f71e";
+const historyElement = document.querySelector(".js-history");
+const btnShowHistory = document.querySelector(".js-btn-show-history");
+
+const store = killa.createStore({ history: [] });
 
 window.addEventListener("DOMContentLoaded", () => {
   loader();
   getCoords();
-  
+
+  store.subscribe((state) => {
+    if (state.history.length >= 2) {
+      btnShowHistory.classList.remove("hidden");
+    }
+  });
+  (state) => state.history;
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -13,78 +24,101 @@ window.addEventListener("DOMContentLoaded", () => {
     let city = formData.get("city");
 
     !city ? alert("BY ENTER A VALID VALUE") : getWeather(city);
+    form.reset();
+  });
+
+  btnShowHistory.addEventListener("click", (e) => {
+    e.preventDefault();
+    const state = store.getState();
+
+    showHistory(state.history);
+    btnShowHistory.classList.add("hidden");
   });
 });
 
 function getWeather(query, coords = {}) {
   const url = Object.keys(coords).length
-
     ? `https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&lang=sp&appid=${apiKey}`
     : `https://api.openweathermap.org/data/2.5/weather?q=${query}&lang=sp&appid=${apiKey}`;
 
   fetch(url)
     .then((rest) => rest.json())
     .then((data) => {
-      console.log(data);
-      showWheather(data);
-      iconAccordingToWeather(data.weather[0].main.toLowerCase());
+      const icon = getIcon(data.weather[0].main.toLowerCase());
+      saveHistory(data);
+
+      const template = createTemplateWheather(data, icon);
+
+      containerWeather.innerHTML = template;
     })
     .catch((error) => {
-      alert("OPSS, SITE NOT FOUND", error);
+      console.log("error", error);
     });
 }
 
-function showWheather(country) {
-
+function createTemplateWheather(country, icon) {
   const [weather] = country.weather;
   const { speed } = country.wind;
   const { temp } = country.main;
 
-  template = `
+  return `
     <div class="container__weather-city ">
       <div class="weather-city__details">
         <span class="big-text"> ${toCelsius(temp)}º </span>
         <div class="wind">
-          <span class="opaque-text">  ${weather.description}</span>
+          <span class="opaque-text">${weather.description}</span>
           <span class="opaque-text"><img src="./image/wind.png" class="small-icon"> ${speed}</span>
           <span class="bold-text">${country.name}</span>
         </div>
       </div>
       <div class="weather-city__img">
-        <img src="" alt="" class="js-img"/>
+        <img src="${icon}" alt="" />
         <span class="bold-text">${weather.main}</span>
       </div>
     </div>
   `;
-  containerWeather.innerHTML = template;
+}
+
+function saveHistory(data) {
+  if (!data) return;
+
+  const { history } = store.getState();
+
+  store.setState(() => {
+    return {
+      history: [...history.filter((item) => item.id != data.id), data],
+    };
+  });
+}
+
+function showHistory(history) {
+  const templates = history.reduce((acc, cur) => {
+    const main = cur.weather[0].main;
+    const icon = getIcon(main.toLowerCase());
+    acc += createTemplateWheather(cur, icon);
+
+    return acc;
+  }, "");
+
+  containerWeather.innerHTML = templates;
 }
 
 function toCelsius(kelvin) {
   return Math.round(kelvin - 273.15);
 }
 
-function iconAccordingToWeather(icono) {
-  const img = document.querySelector(".js-img");
+function getIcon(icono) {
   switch (icono) {
     case "clear":
-      img.src = "image/clear.png";
-      break;
-
+      return "./image/clear.png";
     case "clouds":
-      img.src = "image/cloud.png";
-      break;
-
+      return "./image/cloud.png";
     case "rain":
-      img.src = "image/rain.png";
-      break;
-
+      return "./image/rain.png";
     case "snow":
-      img.src = "image/snow.png";
-      break;
-
+      return "./image/snow.png";
     case "thunderstorm":
-      img.src = "image/thunderstorm.png";
-      break;
+      return "./image/thunderstorm.png";
   }
 }
 
@@ -97,9 +131,8 @@ function getCoords() {
     });
   }
 }
+
 function loader() {
-  loader = `
-  <div class="spinner j-spinner"></div>
-`;
+  const loader = `<div class="spinner j-spinner"></div>`;
   containerWeather.innerHTML = loader;
 }
