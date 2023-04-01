@@ -3,19 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="image/few_clouds.png" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <title>App Clima</title>
+    <title>Clima</title>
   </head>
   <body>
     <div class="container">
-      <div class="container__pais">
-        <input type="text" class="city js-city" />
+      <div class="container__search">
+        <form class="form js-form">
+          <input type="text" class="input-text" name="city" />
+          <button type="submit" class="btn">
+            <i class="fa-solid fa-magnifying-glass icon"></i>
+          </button>
+        </form>
       </div>
-      <div class="container__tempratura"></div>
-
-      <div class="container__viento"></div>
     </div>
+    <section class="weather-info js-weather-city"></section>
+    <div class="history">
+     <button class="btn btn--show-history js-btn-show-history hidden">ver historial</button>
+      <ul class="history__list js-history hidden"></ul>
+    </div>
+
+    <script
+      src="https://kit.fontawesome.com/b383ff7588.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/killa@0.3.0/dist/killa.min.js"></script>
     <script src="main.js"></script>
   </body>
 </html>
